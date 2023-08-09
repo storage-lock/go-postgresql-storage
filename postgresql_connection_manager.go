@@ -4,8 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/storage-lock/go-storage"
 	"sync"
+
+	"github.com/storage-lock/go-storage"
 )
 
 const DefaultPostgreSQLStorageSchema = "public"
@@ -38,7 +39,7 @@ type PostgreSQLConnectionManager struct {
 
 var _ storage.ConnectionManager[*sql.DB] = &PostgreSQLConnectionManager{}
 
-// NewPostgreSQLConnectionGetterFromDSN 从DSN创建MySQL连接
+// NewPostgreSQLConnectionGetterFromDSN 从DSN创建PostgreSQL连接
 func NewPostgreSQLConnectionGetterFromDSN(dsn string) *PostgreSQLConnectionManager {
 	return &PostgreSQLConnectionManager{
 		DSN: dsn,
