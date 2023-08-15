@@ -20,9 +20,9 @@ func main() {
 	}
 	connectionManager := storage.NewFixedSqlDBConnectionManager(db)
 
-	// 然后从这个ConnectionManager创建PostgreSQL Storage
-	options := postgresql_storage.NewPostgreSQLStorageOptions().SetConnectionManager(connectionManager)
-	storage, err := postgresql_storage.NewPostgreSQLStorage(context.Background(), options)
+	// 然后从这个ConnectionManager创建Postgresql Storage
+	options := postgresql_storage.NewPostgresqlStorageOptions().SetConnectionManager(connectionManager)
+	storage, err := postgresql_storage.NewPostgresqlStorage(context.Background(), options)
 	if err != nil {
 		panic(err)
 	}

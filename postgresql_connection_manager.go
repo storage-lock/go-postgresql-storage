@@ -9,9 +9,9 @@ import (
 	"github.com/storage-lock/go-storage"
 )
 
-const DefaultPostgreSQLStorageSchema = "public"
+const DefaultPostgresqlStorageSchema = "public"
 
-type PostgreSQLConnectionManager struct {
+type PostgresqlConnectionManager struct {
 
 	// 主机的名字
 	Host string
@@ -37,18 +37,18 @@ type PostgreSQLConnectionManager struct {
 	once sync.Once
 }
 
-var _ storage.ConnectionManager[*sql.DB] = &PostgreSQLConnectionManager{}
+var _ storage.ConnectionManager[*sql.DB] = &PostgresqlConnectionManager{}
 
-// NewPostgreSQLConnectionGetterFromDSN 从DSN创建PostgreSQL连接
-func NewPostgreSQLConnectionGetterFromDSN(dsn string) *PostgreSQLConnectionManager {
-	return &PostgreSQLConnectionManager{
+// NewPostgresqlConnectionGetterFromDSN 从DSN创建PostgreSQL连接
+func NewPostgresqlConnectionGetterFromDSN(dsn string) *PostgresqlConnectionManager {
+	return &PostgresqlConnectionManager{
 		DSN: dsn,
 	}
 }
 
-// NewPostgreSQLConnectionGetter 从服务器属性创建数据库连接
-func NewPostgreSQLConnectionGetter(host string, port uint, user, passwd, databaseName string) *PostgreSQLConnectionManager {
-	return &PostgreSQLConnectionManager{
+// NewPostgresqlConnectionManager 从服务器属性创建数据库连接
+func NewPostgresqlConnectionManager(host string, port uint, user, passwd, databaseName string) *PostgresqlConnectionManager {
+	return &PostgresqlConnectionManager{
 		Host:         host,
 		Port:         port,
 		User:         user,
@@ -57,11 +57,20 @@ func NewPostgreSQLConnectionGetter(host string, port uint, user, passwd, databas
 	}
 }
 
-func (x *PostgreSQLConnectionManager) Name() string {
-	return "postgresql-connection-manager"
+// NewPostgresqlConnectionGetterFromSqlDb 从一个已经存在的*sql.DB创建连接管理器
+func NewPostgresqlConnectionGetterFromSqlDb(db *sql.DB) *PostgresqlConnectionManager {
+	return &PostgresqlConnectionManager{
+		db: db,
+	}
 }
 
-func (x *PostgreSQLConnectionManager) GetDSN() string {
+const PostgreSQLConnectionManagerName = "postgresql-connection-manager"
+
+func (x *PostgresqlConnectionManager) Name() string {
+	return PostgreSQLConnectionManagerName
+}
+
+func (x *PostgresqlConnectionManager) GetDSN() string {
 	if x.DSN != "" {
 		return x.DSN
 	}
@@ -69,8 +78,11 @@ func (x *PostgreSQLConnectionManager) GetDSN() string {
 }
 
 // Take 获取到数据库的连接
-func (x *PostgreSQLConnectionManager) Take(ctx context.Context) (*sql.DB, error) {
+func (x *PostgresqlConnectionManager) Take(ctx context.Context) (*sql.DB, error) {
 	x.once.Do(func() {
+		if x.err != nil {
+			return
+		}
 		db, err := sql.Open("postgres", x.GetDSN())
 		if err != nil {
 			x.err = err
@@ -81,11 +93,11 @@ func (x *PostgreSQLConnectionManager) Take(ctx context.Context) (*sql.DB, error)
 	return x.db, x.err
 }
 
-func (x *PostgreSQLConnectionManager) Return(ctx context.Context, connection *sql.DB) error {
+func (x *PostgresqlConnectionManager) Return(ctx context.Context, connection *sql.DB) error {
 	return nil
 }
 
-func (x *PostgreSQLConnectionManager) Shutdown(ctx context.Context) error {
+func (x *PostgresqlConnectionManager) Shutdown(ctx context.Context) error {
 	if x.db != nil {
 		return x.db.Close()
 	}

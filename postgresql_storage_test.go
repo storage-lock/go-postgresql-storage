@@ -9,11 +9,12 @@ import (
 )
 
 func TestNewPostgreSQLStorage(t *testing.T) {
+	// CI中的环境变量要保持一致名称
 	envName := "STORAGE_LOCK_POSTGRESQL_DSN"
 	dsn := os.Getenv(envName)
 	assert.NotEmpty(t, dsn)
-	connectionGetter := NewPostgreSQLConnectionGetterFromDSN(dsn)
-	s, err := NewPostgreSQLStorage(context.Background(), &PostgreSQLStorageOptions{
+	connectionGetter := NewPostgresqlConnectionGetterFromDSN(dsn)
+	s, err := NewPostgresqlStorage(context.Background(), &PostgresqlStorageOptions{
 		ConnectionManager: connectionGetter,
 		TableName:         storage_test_helper.TestTableName,
 	})

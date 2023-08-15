@@ -15,11 +15,11 @@ func main() {
 	username := "postgres"
 	passwd := "UeGqAm8CxYGldMDLoNNt"
 	database := "postgres"
-	connectionManager := postgresql_storage.NewPostgreSQLConnectionGetter(host, port, username, passwd, database)
+	connectionManager := postgresql_storage.NewPostgresqlConnectionManager(host, port, username, passwd, database)
 
 	// 然后从这个ConnectionManager创建PostgreSQL Storage
-	options := postgresql_storage.NewPostgreSQLStorageOptions().SetConnectionManager(connectionManager)
-	storage, err := postgresql_storage.NewPostgreSQLStorage(context.Background(), options)
+	options := postgresql_storage.NewPostgresqlStorageOptions().SetConnectionManager(connectionManager)
+	storage, err := postgresql_storage.NewPostgresqlStorage(context.Background(), options)
 	if err != nil {
 		panic(err)
 	}
