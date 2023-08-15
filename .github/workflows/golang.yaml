@@ -21,4 +21,4 @@ jobs:
       - name: Test
         run: go test -v ./...
         env:
-          STORAGE_LOCK_MYSQL_DSN: "postgres:@tcp(127.0.0.1:3306)/postgres"
+          STORAGE_LOCK_POSTGRESQL_DSN: "postgres:@tcp(127.0.0.1:5432)/postgres"
