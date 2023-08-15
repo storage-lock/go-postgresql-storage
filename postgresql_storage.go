@@ -2,10 +2,12 @@ package postgresql_storage
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	_ "github.com/lib/pq"
 	sql_based_storage "github.com/storage-lock/go-sql-based-storage"
 	"github.com/storage-lock/go-storage"
+	"time"
 )
 
 // PostgresqlStorage 基于Postgresql作为存储引擎
@@ -93,4 +95,34 @@ func (x *PostgresqlStorage) Init(ctx context.Context) (returnError error) {
 	}
 
 	return nil
+}
+
+func (x *PostgresqlStorage) GetTime(ctx context.Context) (time.Time, error) {
+
+	db, err := x.options.ConnectionManager.Take(ctx)
+	if err != nil {
+		return time.Time{}, err
+	}
+	defer func() {
+		_ = x.options.ConnectionManager.Return(ctx, db)
+	}()
+
+	var zero time.Time
+	rs, err := db.Query("SELECT CURRENT_TIMESTAMP")
+	if err != nil {
+		return zero, err
+	}
+	defer func() {
+		_ = rs.Close()
+	}()
+	if !rs.Next() {
+		return zero, errors.New("query postgresql server time failed")
+	}
+	var databaseTime time.Time
+	err = rs.Scan(&databaseTime)
+	if err != nil {
+		return zero, err
+	}
+
+	return databaseTime, nil
 }

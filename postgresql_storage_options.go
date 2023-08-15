@@ -51,7 +51,7 @@ func (x *PostgresqlStorageOptions) GetTableName() string {
 }
 
 func (x *PostgresqlStorageOptions) GetTableFullName() string {
-	return fmt.Sprintf("%s.%s", x.GetTableName(), x.GetSchema())
+	return fmt.Sprintf("%s.%s", x.GetSchema(), x.GetTableName())
 }
 
 func (x *PostgresqlStorageOptions) SetConnectionManager(connectionManager storage.ConnectionManager[*sql.DB]) *PostgresqlStorageOptions {
