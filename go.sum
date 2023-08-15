@@ -1,4 +1,3 @@
-github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/golang-infrastructure/go-goroutine-id v0.0.0-20230331174358-98b48a64077b h1:kt3zNiijgkfPm47YaL4MaQJkw0T7ukEEttnCQMOcWxo=
@@ -13,7 +12,6 @@ github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
-github.com/kr/text v0.2.0/go.mod h1:eLer722TekiGuMkidMxC/pM04lWEeraHUUmBw8l2grE=
 github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
 github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
@@ -29,8 +27,8 @@ github.com/storage-lock/go-storage-events v0.0.5 h1:qUgB/VZIQNM0PIos67T9D1JIqu3Y
 github.com/storage-lock/go-storage-events v0.0.5/go.mod h1:aBMVsOSr61+BLxO3QnU5FwKd5bdMGE4IpV0oDrAg8uQ=
 github.com/storage-lock/go-storage-lock v0.0.3 h1:eobL73fhfAjLKNk4msQNTYFcilrPKwySXY/5ympfeRU=
 github.com/storage-lock/go-storage-lock v0.0.3/go.mod h1:kzyjFhgPmiYMwLuuVoQfYxXPUOIGNETA+Z/wDnRc/iw=
-github.com/storage-lock/go-storage-test-helper v0.0.0-20230806122004-626135991a42 h1:0CadWj5pz8NCqNLotgde5k9wozk0Oy2AH3Dk7HXiDZ0=
-github.com/storage-lock/go-storage-test-helper v0.0.0-20230806122004-626135991a42/go.mod h1:OMyrAjXA2WSdYFfjFPQMMa8tfMh9D5owQwdJeNwus30=
+github.com/storage-lock/go-storage-test-helper v0.0.2 h1:6uipDmyxhncEJJSVwPiydKJrGVLoFARwbnkarDfhWSY=
+github.com/storage-lock/go-storage-test-helper v0.0.2/go.mod h1:JrQptW0yJZVqDsObE9vWSoyZxhQHdQDM8/eh4vz7Tls=
 github.com/storage-lock/go-utils v0.0.2 h1:pdacTOlD+AHqwWVmDqZLcjKF+7p8TjsmlvZ9bmmkIfE=
 github.com/storage-lock/go-utils v0.0.2/go.mod h1:tx8ATHL7yOC0Nyjpba7hJNk0+QNt2XEnMr8NcGm9Gak=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=

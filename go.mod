@@ -6,7 +6,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/storage-lock/go-sql-based-storage v0.0.0-20230815152553-e6057f9c32e7
 	github.com/storage-lock/go-storage v0.0.2
-	github.com/storage-lock/go-storage-test-helper v0.0.0-20230806122004-626135991a42
+	github.com/storage-lock/go-storage-test-helper v0.0.2
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -17,7 +17,6 @@ require (
 	github.com/golang-infrastructure/go-pointer v0.0.5 // indirect
 	github.com/golang-infrastructure/go-reflect-utils v0.0.0-20221130143747-965ef2eb09c3 // indirect
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/kr/text v0.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/storage-lock/go-events v0.0.3 // indirect
 	github.com/storage-lock/go-storage-events v0.0.5 // indirect
