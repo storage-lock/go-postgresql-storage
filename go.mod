@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/lib/pq v1.10.9
-	github.com/storage-lock/go-sql-based-storage v0.0.0-20230815074339-36a4f9eac672
+	github.com/storage-lock/go-sql-based-storage v0.0.0-20230815152553-e6057f9c32e7
 	github.com/storage-lock/go-storage v0.0.2
 	github.com/storage-lock/go-storage-test-helper v0.0.0-20230806122004-626135991a42
 	github.com/stretchr/testify v1.8.4

@@ -1,0 +1,24 @@
+name: Go package
+
+on: [ push ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      # action文档：
+      # https://github.com/marketplace/actions/setup-postgresql
+      - uses: harmon758/postgresql-action@v1
+
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.19'
+
+      - name: Test
+        run: go test -v ./...
+        env:
+          STORAGE_LOCK_MYSQL_DSN: "postgres:@tcp(127.0.0.1:3306)/postgres"
