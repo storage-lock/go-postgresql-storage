@@ -9,8 +9,10 @@ import (
 	"github.com/storage-lock/go-storage"
 )
 
+// DefaultPostgresqlStorageSchema 默认的schema
 const DefaultPostgresqlStorageSchema = "public"
 
+// PostgresqlConnectionManager Postgresql的连接管理器
 type PostgresqlConnectionManager struct {
 
 	// 主机的名字

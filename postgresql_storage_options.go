@@ -19,6 +19,7 @@ type PostgresqlStorageOptions struct {
 	ConnectionManager storage.ConnectionManager[*sql.DB]
 }
 
+// NewPostgresqlStorageOptions 创建一个Storage选项
 func NewPostgresqlStorageOptions() *PostgresqlStorageOptions {
 	return &PostgresqlStorageOptions{
 		Schema:    DefaultPostgresqlStorageSchema,
@@ -61,6 +62,7 @@ func (x *PostgresqlStorageOptions) SetConnectionManager(connectionManager storag
 
 func (x *PostgresqlStorageOptions) Check() error {
 
+	// TODO 参数为空的时候是设置值还是返回错误比较合适呢？
 	if x.Schema == "" {
 		x.Schema = DefaultPostgresqlStorageSchema
 	}
