@@ -38,8 +38,8 @@ func (x *PostgresqlSqlProvider) CreateWithVersionSql(ctx context.Context, tableF
 }
 
 func (x *PostgresqlSqlProvider) UpdateWithVersionSql(ctx context.Context, tableFullName string, lockId string, exceptedVersion, newVersion storage.Version, lockInformation *storage.LockInformation) (string, []any) {
-	insertSql := fmt.Sprintf("UPDATE %s SET version = $1, lock_information_json_string = $2 WHERE lock_id = $3 AND version = $5", tableFullName)
-	return insertSql, []any{newVersion, lockInformation.ToJsonString(), lockId, lockInformation.OwnerId, exceptedVersion}
+	insertSql := fmt.Sprintf("UPDATE %s SET version = $1, lock_information_json_string = $2 WHERE lock_id = $3 AND version = $4", tableFullName)
+	return insertSql, []any{newVersion, lockInformation.ToJsonString(), lockId, exceptedVersion}
 }
 
 func (x *PostgresqlSqlProvider) CreateTableSql(ctx context.Context, tableFullName string) (string, []any) {
