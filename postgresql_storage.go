@@ -2,7 +2,6 @@ package postgresql_storage
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	_ "github.com/lib/pq"
 	sql_based_storage "github.com/storage-lock/go-sql-based-storage"
@@ -116,7 +115,7 @@ func (x *PostgresqlStorage) GetTime(ctx context.Context) (time.Time, error) {
 		_ = rs.Close()
 	}()
 	if !rs.Next() {
-		return zero, errors.New("query postgresql server time failed")
+		return zero, ErrQueryPostgresqlServerTime
 	}
 	var databaseTime time.Time
 	err = rs.Scan(&databaseTime)
