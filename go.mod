@@ -4,8 +4,9 @@ go 1.19
 
 require (
 	github.com/lib/pq v1.10.9
-	github.com/storage-lock/go-sql-based-storage v0.0.0-20230903155403-1c8c724d3383
+	github.com/storage-lock/go-sql-based-storage v0.0.0-20230903181730-3e91a672a521
 	github.com/storage-lock/go-storage v0.0.2
+	github.com/storage-lock/go-storage-lock v0.0.4
 	github.com/storage-lock/go-storage-test-helper v0.0.3
 	github.com/stretchr/testify v1.8.4
 )
@@ -21,7 +22,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/storage-lock/go-events v0.0.3 // indirect
 	github.com/storage-lock/go-storage-events v0.0.5 // indirect
-	github.com/storage-lock/go-storage-lock v0.0.3 // indirect
 	github.com/storage-lock/go-utils v0.0.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

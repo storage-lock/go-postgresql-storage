@@ -6,6 +6,8 @@ import (
 	_ "github.com/lib/pq"
 	sql_based_storage "github.com/storage-lock/go-sql-based-storage"
 	"github.com/storage-lock/go-storage"
+	storage_lock "github.com/storage-lock/go-storage-lock"
+	"strings"
 	"time"
 )
 
@@ -94,6 +96,20 @@ func (x *PostgresqlStorage) Init(ctx context.Context) (returnError error) {
 	}
 
 	return nil
+}
+
+// duplicate key value violates unique constraint
+
+func (x *PostgresqlStorage) CreateWithVersion(ctx context.Context, lockId string, version storage.Version, lockInformation *storage.LockInformation) (returnError error) {
+
+	returnError = x.SqlBasedStorage.CreateWithVersion(ctx, lockId, version, lockInformation)
+	if returnError != nil {
+		// 把重复转为版本miss
+		if strings.Contains(returnError.Error(), "duplicate key value violates unique constraint") {
+			return storage_lock.ErrVersionMiss
+		}
+	}
+	return returnError
 }
 
 func (x *PostgresqlStorage) GetTime(ctx context.Context) (time.Time, error) {

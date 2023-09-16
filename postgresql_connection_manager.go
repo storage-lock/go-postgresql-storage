@@ -41,10 +41,17 @@ type PostgresqlConnectionManager struct {
 
 var _ storage.ConnectionManager[*sql.DB] = &PostgresqlConnectionManager{}
 
-// NewPostgresqlConnectionGetterFromDSN 从DSN创建PostgreSQL连接
-func NewPostgresqlConnectionGetterFromDSN(dsn string) *PostgresqlConnectionManager {
+// NewPostgresqlConnectionGetterFromDsn 从DSN创建Postgresql连接
+func NewPostgresqlConnectionGetterFromDsn(dsn string) *PostgresqlConnectionManager {
 	return &PostgresqlConnectionManager{
 		DSN: dsn,
+	}
+}
+
+// NewPostgresqlConnectionGetterFromSqlDb 从一个已经存在的*sql.DB创建连接管理器
+func NewPostgresqlConnectionGetterFromSqlDb(db *sql.DB) *PostgresqlConnectionManager {
+	return &PostgresqlConnectionManager{
+		db: db,
 	}
 }
 
@@ -59,17 +66,10 @@ func NewPostgresqlConnectionManager(host string, port uint, user, passwd, databa
 	}
 }
 
-// NewPostgresqlConnectionGetterFromSqlDb 从一个已经存在的*sql.DB创建连接管理器
-func NewPostgresqlConnectionGetterFromSqlDb(db *sql.DB) *PostgresqlConnectionManager {
-	return &PostgresqlConnectionManager{
-		db: db,
-	}
-}
-
-const PostgreSQLConnectionManagerName = "postgresql-connection-manager"
+const PostgresqlConnectionManagerName = "postgresql-connection-manager"
 
 func (x *PostgresqlConnectionManager) Name() string {
-	return PostgreSQLConnectionManagerName
+	return PostgresqlConnectionManagerName
 }
 
 func (x *PostgresqlConnectionManager) GetDSN() string {
@@ -82,6 +82,9 @@ func (x *PostgresqlConnectionManager) GetDSN() string {
 // Take 获取到数据库的连接
 func (x *PostgresqlConnectionManager) Take(ctx context.Context) (*sql.DB, error) {
 	x.once.Do(func() {
+		if x.db != nil {
+			return
+		}
 		if x.err != nil {
 			return
 		}

@@ -11,7 +11,7 @@ func main() {
 
 	// 使用一个DSN形式的数据库连接字符串创建ConnectionManager
 	testDsn := "host=127.0.0.1 user=postgres password=UeGqAm8CxYGldMDLoNNt port=5432 dbname=postgres sslmode=disable"
-	connectionManager := postgresql_storage.NewPostgresqlConnectionGetterFromDSN(testDsn)
+	connectionManager := postgresql_storage.NewPostgresqlConnectionGetterFromDsn(testDsn)
 
 	// 然后从这个ConnectionManager创建PostgreSQL Storage
 	options := postgresql_storage.NewPostgresqlStorageOptions().SetConnectionManager(connectionManager)
