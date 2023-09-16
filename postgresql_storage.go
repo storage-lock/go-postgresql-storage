@@ -105,6 +105,7 @@ func (x *PostgresqlStorage) CreateWithVersion(ctx context.Context, lockId string
 	returnError = x.SqlBasedStorage.CreateWithVersion(ctx, lockId, version, lockInformation)
 	if returnError != nil {
 		// 把重复转为版本miss
+		// panic: pq: duplicate key value violates unique constraint "storage_lock_pkey"
 		if strings.Contains(returnError.Error(), "duplicate key value violates unique constraint") {
 			return storage_lock.ErrVersionMiss
 		}
