@@ -7,7 +7,7 @@ import (
 	"github.com/storage-lock/go-storage"
 )
 
-// PostgresqlSqlProvider storage sql的postgresql方言
+// PostgresqlSqlProvider storage sql的postgresql方言，因为使用的驱动的占位符不同，所以基本上每个语句都重写了，但处理占位符其它大差不差
 type PostgresqlSqlProvider struct {
 	*sql_based_storage.Sql92Provider
 }
