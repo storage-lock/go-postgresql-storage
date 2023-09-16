@@ -13,7 +13,7 @@ func TestNewPostgresqlStorage(t *testing.T) {
 	envName := "STORAGE_LOCK_POSTGRESQL_DSN"
 	dsn := os.Getenv(envName)
 	assert.NotEmpty(t, dsn)
-	connectionGetter := NewPostgresqlConnectionGetterFromDSN(dsn)
+	connectionGetter := NewPostgresqlConnectionGetterFromDsn(dsn)
 	s, err := NewPostgresqlStorage(context.Background(), NewPostgresqlStorageOptions().SetConnectionManager(connectionGetter))
 	assert.Nil(t, err)
 	storage_test_helper.TestStorage(t, s)
