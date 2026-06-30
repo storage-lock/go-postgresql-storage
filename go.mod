@@ -13,7 +13,7 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/golang-infrastructure/go-goroutine-id v0.0.0-20230331174358-98b48a64077b // indirect
+	github.com/golang-infrastructure/go-goroutine-id v0.0.0-20230917075314-f1af231c0b06 // indirect
 	github.com/golang-infrastructure/go-if-expression v0.0.3 // indirect
 	github.com/golang-infrastructure/go-iterator v0.0.0-20230524171120-56988a9b127c // indirect
 	github.com/golang-infrastructure/go-pointer v0.0.5 // indirect
@@ -25,3 +25,9 @@ require (
 	github.com/storage-lock/go-utils v0.0.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/storage-lock/go-storage => ../go-storage
+
+replace github.com/storage-lock/go-sql-based-storage => ../go-sql-based-storage
+
+replace github.com/storage-lock/go-storage-lock => ../go-storage-lock

@@ -61,6 +61,16 @@ func (x *PostgresqlStorage) GetName() string {
 	return PostgresqlStorageName
 }
 
+// Capabilities 声明 PostgreSQL 存储支持的能力
+// PostgreSQL 通过主键唯一约束和 WHERE 条件更新天然支持 CAS，
+// 通过 CURRENT_TIMESTAMP 提供数据库服务器时间
+func (x *PostgresqlStorage) Capabilities() []storage.StorageCapability {
+	return []storage.StorageCapability{
+		storage.CapabilityCAS,
+		storage.CapabilityReliableTime,
+	}
+}
+
 func (x *PostgresqlStorage) Init(ctx context.Context) (returnError error) {
 	db, err := x.options.ConnectionManager.Take(ctx)
 	if err != nil {
