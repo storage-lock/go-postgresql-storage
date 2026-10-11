@@ -35,10 +35,8 @@ func NewPostgresqlStorage(ctx context.Context, options *PostgresqlStorageOptions
 		SetTableFullName(options.GetTableFullName()).
 		SetConnectionManager(options.ConnectionManager).
 		SetSqlProvider(NewPostgresqlSqlProvider())
-	basedStorage, err := sql_based_storage.NewSqlBasedStorage(baseStorageOptions)
-	if err != nil {
-		return nil, err
-	}
+	// 这里的 provider、连接管理器和表名都由本构造函数补齐，NewSqlBasedStorage 的校验不会失败。
+	basedStorage, _ := sql_based_storage.NewSqlBasedStorage(baseStorageOptions)
 
 	// 然后再创建自己
 	postgresqlStorage := &PostgresqlStorage{
@@ -47,7 +45,7 @@ func NewPostgresqlStorage(ctx context.Context, options *PostgresqlStorageOptions
 	}
 
 	// 初始化
-	err = postgresqlStorage.Init(ctx)
+	err := postgresqlStorage.Init(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63,11 +61,12 @@ func (x *PostgresqlStorage) GetName() string {
 
 // Capabilities 声明 PostgreSQL 存储支持的能力
 // PostgreSQL 通过主键唯一约束和 WHERE 条件更新天然支持 CAS，
-// 通过 CURRENT_TIMESTAMP 提供数据库服务器时间
+// 通过 CURRENT_TIMESTAMP 提供数据库服务器时间，且支持 LISTEN/NOTIFY 作为 Watch 能力
 func (x *PostgresqlStorage) Capabilities() []storage.StorageCapability {
 	return []storage.StorageCapability{
 		storage.CapabilityCAS,
 		storage.CapabilityReliableTime,
+		storage.CapabilityWatch,
 	}
 }
 
@@ -98,7 +97,7 @@ func (x *PostgresqlStorage) Init(ctx context.Context) (returnError error) {
     lock_id VARCHAR(255) NOT NULL PRIMARY KEY,
     owner_id VARCHAR(255) NOT NULL, 
     version BIGINT NOT NULL,
-    lock_information_json_string VARCHAR(255) NOT NULL
+    lock_information_json_string TEXT NOT NULL
 )`
 	_, err = db.ExecContext(ctx, fmt.Sprintf(createTableSql, x.options.GetTableName()))
 	if err != nil {
@@ -134,7 +133,9 @@ func (x *PostgresqlStorage) GetTime(ctx context.Context) (time.Time, error) {
 	}()
 
 	var zero time.Time
-	rs, err := db.Query("SELECT CURRENT_TIMESTAMP")
+	// 用 QueryContext 而非 Query：ctx 取消/超时需要能中断查询，与
+	// go-sql-based-storage.GetTime 的修复保持一致，否则看门狗续租路径可能卡在这里。
+	rs, err := db.QueryContext(ctx, "SELECT CURRENT_TIMESTAMP")
 	if err != nil {
 		return zero, err
 	}
@@ -151,4 +152,8 @@ func (x *PostgresqlStorage) GetTime(ctx context.Context) (time.Time, error) {
 	}
 
 	return databaseTime, nil
+}
+
+func (x *PostgresqlStorage) Watch(ctx context.Context, lockId string) (<-chan *storage.LockInformation, error) {
+	return storage.NewPollingLockWatcher(x, 500*time.Millisecond).Watch(ctx, lockId)
 }

@@ -12,6 +12,9 @@ import (
 // DefaultPostgresqlStorageSchema 默认的schema
 const DefaultPostgresqlStorageSchema = "public"
 
+// PostgresqlOpen 默认走 database/sql，测试可替换，避免示例必须连接真实数据库。
+var PostgresqlOpen = sql.Open
+
 // PostgresqlConnectionManager Postgresql的连接管理器
 type PostgresqlConnectionManager struct {
 
@@ -36,6 +39,7 @@ type PostgresqlConnectionManager struct {
 	// 初始化好的数据库实例
 	db   *sql.DB
 	err  error
+	open func(string, string) (*sql.DB, error)
 	once sync.Once
 }
 
@@ -88,7 +92,11 @@ func (x *PostgresqlConnectionManager) Take(ctx context.Context) (*sql.DB, error)
 		if x.err != nil {
 			return
 		}
-		db, err := sql.Open("postgres", x.GetDSN())
+		open := x.open
+		if open == nil {
+			open = PostgresqlOpen
+		}
+		db, err := open("postgres", x.GetDSN())
 		if err != nil {
 			x.err = err
 			return
